@@ -1,104 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrice } from '../../utils/format';
 
 import { ProductList } from './styles';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>
-          Tênis olympikus com o título tão grande que quebra em um monte de
-          linhas
-        </strong>
-        <span>R$ 130,00</span>
+export default class Home extends Component {
+  state = {
+    products: [],
+  };
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>Tênis olympikus</strong>
-        <span>R$ 130,00</span>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>Tênis olympikus</strong>
-        <span>R$ 130,00</span>
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>Tênis olympikus</strong>
-        <span>R$ 130,00</span>
+    this.setState({ products: data });
+  }
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>Tênis olympikus</strong>
-        <span>R$ 130,00</span>
+  render() {
+    const { products } = this.state;
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-olympikus-contrast-masculino/02/D22-1776-002/D22-1776-002_detalhe2.jpg?resize=326:*"
-          alt="Tênis"
-        />
-        <strong>Tênis olympikus</strong>
-        <span>R$ 130,00</span>
+    return (
+      <ProductList>
+        {products.map(product => (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+            <button type="button">
+              <div>
+                <MdAddShoppingCart size={16} color="#FFF" /> 3
+              </div>
+              <span>ADICIONAR AO CARRINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }
