@@ -33,6 +33,7 @@ module.exports = {
       }
     ],
     'import/prefer-default-export': 'off',
+    'no-console': ['error', { allow: ['tron'] }],
     'no-unused-vars': 'warn',
     'react/no-unused-state': 'warn',
   },
