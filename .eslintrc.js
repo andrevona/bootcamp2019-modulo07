@@ -37,5 +37,6 @@ module.exports = {
     'no-console': ['error', { allow: ['tron'] }],
     'no-unused-vars': 'warn',
     'react/no-unused-state': 'warn',
+    'react/prop-types': 'warn',
   },
 };
